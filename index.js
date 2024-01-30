@@ -137,6 +137,60 @@ app.get("/find_by_id", async (req, res) => {
       res.status(500).json({ message: "error" });
     }
   });
+
+
+  app.delete("/find_by_id_and_delete", async (req, res,)=> {
+    try {
+      console.log(req.query);
+
+      const deleted = await Person.findByIdAndDelete(req.query.id)
+  
+      // const person = await Person.findById(req.query.id)
+    
+  
+      res.status(200).json({ message: "success", data:deleted });
+    } catch (error) {
+      res.status(500).json({ message: "error" });
+    }
+
+  })
+
+  app.delete("/delete_many/:name", async (req, res,)=> {
+    try {
+      console.log(req.params);
+
+      
+
+      const deleted = await Person.deleteMany({name:req.params.name})
+  
+      // const person = await Person.findById(req.query.id)
+    
+  
+      res.status(200).json({ message: "success" ,data : deleted});
+    } catch (error) {
+      res.status(500).json({ message: "error" });
+    }
+
+  })
+
+
+  // //Chain Search Query Helpers to Narrow Search Results
+  // app.get("/q_10", async (req, res) => {
+  //   //req.query.fav=any existing food in the database 
+  //   try {
+  //       console.log(req.query)
+  //     const data = await  Person
+  //       .find({ favoriteFoods: req.query.fav }) // Find people who like burritos (assuming it's a direct match)
+  //       .sort('name') // Sort by name
+  //       .limit(2) // Limit the results to 2 documents
+  //       .select('-age') // Hide their age
+  //       .exec();
+  
+  //     res.status(200).json({ message: "well done", data });
+  //   } catch (err) {
+  //     res.status(500).json({ error: err });
+  //   }
+  // });
   
 
 app.listen(4000, () => {
